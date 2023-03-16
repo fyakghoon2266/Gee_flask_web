@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product label</title>
+    <form id="Product_label" action ="{{ url_for('routes.Zonal_All') }}" method="post" enctype = "multipart/form-data" onsubmit="return validateForm()">
+        <h2>The Satellite Image Products</h2>
+        <p>{{ form.Product.label }} {{ form.Product }}
+            {% if form.Product.errors %}
+                {% for error in form.Product.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </p>
+    </br>
+        <h3>Please upload the shapfiles of your study region (The *.shp, *.dbf, and *shx files are required for uploaded shapfiles)</h3>
+        <input type="file" name="file" multiple accept="" value="Select Files">
+        <script>
+            var fileInput = document.querySelector("input[type=file]");
+            fileInput.onchange = function () {
+                var input = document.querySelector("input[name='file']");
+            var files = input.files;
+            var requiredExtensions = [".shp", ".dbf", ".shx"];
+            var requiredFileCount = requiredExtensions.length;
+            var foundFileCount = 0;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var fileName = file.name;
+                var fileSize = file.size;
+                var fileExtension = fileName.substr(fileName.lastIndexOf("."));
+
+                if (requiredExtensions.includes(fileExtension)) {
+                    foundFileCount++;
+                    if (fileSize > 5 * 1024 * 1024) {
+                        alert("The maximum supported file sizes are 5 MB. " + fileName + " exceed the size limit.");
+                        fileInput.value = "";
+                        return;
+                    }
+                }
+            }
+
+            if (foundFileCount < requiredFileCount) {
+                alert("The *.shp, *.dbf, and *shx files are required for uploaded shapfiles");
+                fileInput.value = "";
+                return;
+            }
+
+            document.getElementById("Product_label").submit();
+                    };
+        </script>
+        <script>
+            function validateForm() {
+              var fileInput = document.querySelector("input[type=file]");
+              var files = fileInput.files;
+              var requiredExtensions = [".shp", ".dbf", ".shx"];
+              var requiredFileCount = requiredExtensions.length;
+              var foundFileCount = 0;
+          
+              for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var fileName = file.name;
+                var fileExtension = fileName.substr(fileName.lastIndexOf("."));
+          
+                if (requiredExtensions.includes(fileExtension)) {
+                  foundFileCount++;
+                }
+              }
+          
+              if (foundFileCount < requiredFileCount) {
+                alert("The *.shp, *.dbf, and *shx files are required for uploaded shapfiles");
+                return false;
+              }
+          
+              return true;
+            }
+          </script>
+        
+        <p>{{ form.submit() }}</p>
+    </form>
+</head>
+
+<body>
+</body>
+</html>

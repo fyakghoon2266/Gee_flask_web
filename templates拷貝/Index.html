@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecology & Health Sustainable Platform</title>
+    <div class="container" itemprop="description">
+        <h1>Ecology & Health Sustainable Platform</h1>
+        <h3>
+            Ecology & Health Sustainable Platform (EHSP) generates multiple environmental parameters derived from different satellite remote sensing images through Google Earth Engine (GEE). The users only need to provide the shapfile (*.shp) of any specific study regions, which might contain administration boundary levels with unique ID column, EHSP will automatically generate either zonal statistic summaries or raster files in the study regions upon request. 
+        </h3>
+        </br>
+        <h3>
+            More detail information about satellite images can be found on the GEE Data Catalog. 
+            <a href="https://developers.google.com/earth-engine/datasets/">Google Earth Engine dataset</a>
+        </h3>
+        </br>
+        <h3>
+            At current stage, EHSP provides several satellite products listed here.  
+            <a href="{{ url_for('routes.Table') }}" Target="_blank">here</a>
+        </h3>
+    </div>
+    <form id="Index_Type" method="post" enctype = "multipart/form-data">
+        <p>{{ form.Type.label }} {{ form.Type }}
+            {% if form.Type.errors %}
+                {% for error in form.Type.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    </br>
+</br>
+</br>
+    <style>
+    .danger {
+        background-color: #ffdddd;
+        border-left: 6px solid #f44336;
+    }
+    </style>
+    <div class="danger">
+        <p><strong>Note:</strong> Currently, EHSP works for a limited geographical area size (the size of shapfile should be less thsn ??? MB) and the processing period is two-years at most to avoid potential internet connection issues. If you need to process huge study areas or longer temporal period, please contact Dr. Ting-Wu Chuang <a href = "mailto:chtingwu@tmu.edu.tw" itemprop="email">Send Email</a>
+        </p>
+    </div>
+</head>
+<body>
+    
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Modis_NDVI_EVI</title>
+    <div id="loadingModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="loadingModalLabel">Please Wait</h4>
+            </div>
+            <div class="modal-body">
+              <p>Loading...</p>
+            </div>
+          </div>
+        </div>
+    </div>
+    <form method="POST" action="{{ url_for('routes.Model_Modis_NDVI_EVI') }}" enctype=multipart/form-data onsubmit="showLoading()">
+        {{ form.hidden_tag() }}
+        <p>{{ form.Bands_Modis_NDVI_EVI.label }} {{ form.Bands_Modis_NDVI_EVI }}
+            {% if form.Bands_Modis_NDVI_EVI.errors %}
+                {% for error in form.Bands_Modis_NDVI_EVI.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </p>
+        <p>{{ form.Star_Date.label }} {{ form.Star_Date }}</p>
+        <p>{{ form.End_Date.label }} {{ form.End_Date }}</p>
+        <p>{{ form.Statics.label }} {{ form.Statics }}</p>
+        <p>{{ form.Regional_category.label }} {{ form.Regional_category }}</p>
+        <button type="submit" data-toggle="modal" data-target="#loadingModal">Submit</button>
+</form>
+    <script>
+        $(document).ready(function() {
+          $('#loadingModal').on('hidden.bs.modal', function () {
+            // Code to display result here
+          });
+        
+          $('form').submit(function() {
+            $('#loadingModal').modal('show');
+          });
+        });
+        
+        $(document).ready(function() {
+          var interval = setInterval(function() {
+            var cookies = document.cookie.split(';');
+            var found = false;
+            for (var i = 0; i < cookies.length; i++) {
+              if (cookies[i].indexOf('fileDownload=true') !== -1) {
+                found = true;
+                break;
+              }
+            }
+            if (found) {
+              clearInterval(interval);
+              $('#loadingModal').modal('hide');
+            }
+          }, 1000);
+        });
+    </script>
+    </br>
+    </br>
+    </br>
+    </br>
+    <style>
+        .danger {
+            background-color: #ffdddd;
+            border-left: 6px solid #f44336;
+        }
+    </style>
+    <div class="danger">
+        <p>
+            <strong>Notice:</strong> 
+        </br>    
+        1. Start Date & End Date: Users need to check the availability of selected satellite images during your study period. Error message will be pop-up if the user selects inappropriate start and end date.
+        </br>
+        2. Location ID: This column is used for zonal statistics. Each administration boundary should be assigned one unique ID.
+        </p>
+    </div>
+    
+</body>
+
+</head>
+    
+</html>

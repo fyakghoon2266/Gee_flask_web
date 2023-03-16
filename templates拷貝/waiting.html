@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Waiting for Results</title>
+</head>
+<body>
+    <h1>Please wait while we process your request...</h1>
+</body>
+<script type="text/javascript">
+  $(document).ready(function() {
+      setInterval(function() {
+          $.get("/get_result", function(data) {
+              if (data == "ready") {
+                  window.location.href = "/download";
+              }
+          });
+      }, 5000);
+  });
+</script>
+</html>
+
+
